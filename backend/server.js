@@ -3,7 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import db from './database.js';
+import pool from './database.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,18 +17,18 @@ app.use(bodyParser.json());
 // Servir archivos estáticos del frontend en producción
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Helper functions
+const str = (val) => (val !== undefined && val !== null && val !== '') ? String(val) : null;
+const num = (val) => (val !== undefined && val !== null && val !== '') ? Number(val) : null;
+const bool = (val) => val ? true : false;
+
 // Crear nuevo registro médico
-app.post('/api/medical-records', (req, res) => {
+app.post('/api/medical-records', async (req, res) => {
   try {
     const data = req.body;
 
-    // Helper function to convert values to proper types
-    const str = (val) => (val !== undefined && val !== null && val !== '') ? String(val) : '';
-    const num = (val) => (val !== undefined && val !== null && val !== '') ? Number(val) : null;
-    const bool = (val) => val ? 1 : 0;
-
-    const stmt = db.prepare(`
-      INSERT INTO medical_records (
+    const result = await pool.query(`
+      INSERT INTO oguk_medical_records (
         surname, first_name, id_type, id_number, date_of_birth, address, city, telephone, exam_date,
         current_employer, position_held, time_in_office_months, contract_type, country_work,
         date_of_travel, shift_scheme, work_involves_food, work_involves_cranes,
@@ -51,31 +51,29 @@ app.post('/api/medical-records', (req, res) => {
         visual_impairment, caries_dental, allergic_disorders, immunodeficiency,
         current_pregnancy, self_perception_disability, classified_disabled
       ) VALUES (
-        ?, ?, ?, ?, ?, ?, ?, ?, ?,
-        ?, ?, ?, ?, ?,
-        ?, ?, ?, ?,
-        ?, ?, ?,
-        ?, ?, ?,
-        ?, ?, ?,
-        ?, ?,
-        ?, ?, ?, ?,
-        ?, ?, ?,
-        ?, ?, ?, ?,
-        ?, ?,
-        ?, ?, ?, ?,
-        ?, ?, ?, ?,
-        ?, ?, ?, ?,
-        ?, ?, ?, ?, ?, ?,
-        ?, ?, ?, ?,
-        ?, ?, ?, ?, ?,
-        ?, ?, ?, ?, ?,
-        ?, ?, ?, ?, ?,
-        ?, ?, ?, ?,
-        ?, ?, ?
-      )
-    `);
-
-    const result = stmt.run(
+        $1, $2, $3, $4, $5, $6, $7, $8, $9,
+        $10, $11, $12, $13, $14,
+        $15, $16, $17, $18,
+        $19, $20, $21,
+        $22, $23, $24,
+        $25, $26, $27,
+        $28, $29,
+        $30, $31, $32, $33,
+        $34, $35, $36,
+        $37, $38, $39, $40,
+        $41, $42,
+        $43, $44, $45, $46,
+        $47, $48, $49, $50,
+        $51, $52, $53, $54,
+        $55, $56, $57, $58, $59, $60,
+        $61, $62, $63, $64,
+        $65, $66, $67, $68, $69,
+        $70, $71, $72, $73, $74,
+        $75, $76, $77, $78, $79,
+        $80, $81, $82, $83,
+        $84, $85, $86
+      ) RETURNING id
+    `, [
       str(data.surname), str(data.first_name), str(data.id_type), str(data.id_number), str(data.date_of_birth),
       str(data.address), str(data.city), str(data.telephone), str(data.exam_date),
       str(data.current_employer), str(data.position_held), num(data.time_in_office_months), str(data.contract_type),
@@ -99,11 +97,11 @@ app.post('/api/medical-records', (req, res) => {
       str(data.cancer), str(data.infectious_disease), str(data.hearing_loss), str(data.dizziness_vertigo), str(data.eardrum_perforation),
       str(data.visual_impairment), str(data.caries_dental), str(data.allergic_disorders), str(data.immunodeficiency),
       str(data.current_pregnancy), str(data.self_perception_disability), str(data.classified_disabled)
-    );
+    ]);
 
     res.status(201).json({
       success: true,
-      id: result.lastInsertRowid,
+      id: result.rows[0].id,
       message: 'Medical record created successfully'
     });
   } catch (error) {
@@ -116,11 +114,10 @@ app.post('/api/medical-records', (req, res) => {
 });
 
 // Obtener todos los registros médicos
-app.get('/api/medical-records', (req, res) => {
+app.get('/api/medical-records', async (req, res) => {
   try {
-    const stmt = db.prepare('SELECT * FROM medical_records ORDER BY created_at DESC');
-    const records = stmt.all();
-    res.json({ success: true, records });
+    const result = await pool.query('SELECT * FROM oguk_medical_records ORDER BY created_at DESC');
+    res.json({ success: true, records: result.rows });
   } catch (error) {
     console.error('Error fetching medical records:', error);
     res.status(500).json({
@@ -131,20 +128,19 @@ app.get('/api/medical-records', (req, res) => {
 });
 
 // Obtener un registro específico
-app.get('/api/medical-records/:id', (req, res) => {
+app.get('/api/medical-records/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const stmt = db.prepare('SELECT * FROM medical_records WHERE id = ?');
-    const record = stmt.get(id);
+    const result = await pool.query('SELECT * FROM oguk_medical_records WHERE id = $1', [id]);
 
-    if (!record) {
+    if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
         error: 'Record not found'
       });
     }
 
-    res.json({ success: true, record });
+    res.json({ success: true, record: result.rows[0] });
   } catch (error) {
     console.error('Error fetching medical record:', error);
     res.status(500).json({
@@ -155,18 +151,16 @@ app.get('/api/medical-records/:id', (req, res) => {
 });
 
 // Actualizar comentarios del médico
-app.put('/api/medical-records/:id/physician-comments', (req, res) => {
+app.put('/api/medical-records/:id/physician-comments', async (req, res) => {
   try {
     const { id } = req.params;
     const { physician_comments } = req.body;
 
-    const stmt = db.prepare(`
-      UPDATE medical_records
-      SET physician_comments = ?, reviewed = 1, reviewed_at = CURRENT_TIMESTAMP
-      WHERE id = ?
-    `);
-
-    stmt.run(physician_comments, id);
+    await pool.query(`
+      UPDATE oguk_medical_records
+      SET physician_comments = $1, reviewed = TRUE, reviewed_at = CURRENT_TIMESTAMP
+      WHERE id = $2
+    `, [physician_comments, id]);
 
     res.json({
       success: true,
