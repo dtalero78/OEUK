@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { questionSteps, initialFormData } from '../questionsConfig'
 
-const API_URL = 'http://localhost:3000/api'
+const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3000/api'
 
 function PatientForm() {
   const [currentStep, setCurrentStep] = useState(0)
@@ -120,7 +120,11 @@ function PatientForm() {
   if (submitted) {
     return (
       <div className="wizard-container">
-        <div className="wizard-header"><h1>OEUK</h1></div>
+        <div className="wizard-header">
+          <h1>Juan José Reátiga, MD</h1>
+          <p className="wizard-subtitle">OGUK/OEUK Certified Occupational Physician</p>
+          <p className="wizard-contact">+57 316 525 9075</p>
+        </div>
         <div className="wizard-content">
           <div className="wizard-success">
             <div className="wizard-success-icon">
@@ -205,7 +209,9 @@ function PatientForm() {
   return (
     <div className="wizard-container">
       <div className="wizard-header">
-        <h1>OEUK - Medical Screening Questionnaire</h1>
+        <h1>Juan José Reátiga, MD</h1>
+        <p className="wizard-subtitle">OGUK/OEUK Certified Occupational Physician</p>
+        <p className="wizard-contact">+57 316 525 9075</p>
       </div>
 
       <div className="wizard-progress">

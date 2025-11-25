@@ -1,0 +1,10 @@
+node_modules
+*.db
+.git
+.gitignore
+README.md
+INSTRUCCIONES.md
+*.pdf
+frontend/node_modules
+backend/node_modules
+backend/*.db
