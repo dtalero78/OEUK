@@ -19,7 +19,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Helper functions
 const str = (val) => (val !== undefined && val !== null && val !== '') ? String(val) : null;
-const num = (val) => (val !== undefined && val !== null && val !== '') ? Number(val) : null;
+const num = (val) => {
+  if (val === undefined || val === null || val === '') return null;
+  const parsed = Number(val);
+  return isNaN(parsed) ? null : parsed;
+};
 const bool = (val) => val ? true : false;
 
 // Crear nuevo registro médico

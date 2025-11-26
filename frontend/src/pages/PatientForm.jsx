@@ -45,6 +45,12 @@ function PatientForm() {
     }
   }
 
+  const handleNumberChange = (field, value) => {
+    // Solo permite dígitos
+    const numericValue = value.replace(/[^0-9]/g, '')
+    handleChange(field, numericValue)
+  }
+
   const handleCheckboxGroupChange = (field, checked) => {
     setFormData(prev => ({ ...prev, [field]: checked }))
   }
@@ -151,7 +157,7 @@ function PatientForm() {
         return <input type="text" className="wizard-input" value={formData[field] || ''} onChange={(e) => handleChange(field, e.target.value)} onKeyPress={handleKeyPress} placeholder={placeholder} autoFocus />
 
       case 'number':
-        return <input type="number" className="wizard-input" value={formData[field] || ''} onChange={(e) => handleChange(field, e.target.value)} onKeyPress={handleKeyPress} placeholder={placeholder} min="0" autoFocus />
+        return <input type="text" inputMode="numeric" pattern="[0-9]*" className="wizard-input" value={formData[field] || ''} onChange={(e) => handleNumberChange(field, e.target.value)} onKeyPress={handleKeyPress} placeholder={placeholder} autoFocus />
       
       case 'date':
         return <input type="date" className="wizard-input" value={formData[field] || ''} onChange={(e) => handleChange(field, e.target.value)} autoFocus />
