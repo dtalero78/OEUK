@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { questionSteps, initialFormData } from '../questionsConfig'
 import SignaturePad from '../components/SignaturePad'
 import PhotoCapture from '../components/PhotoCapture'
+import Tooltip from '../components/Tooltip'
 
 const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3000/api'
 
@@ -252,6 +253,7 @@ function PatientForm() {
           <h2>
             {currentQuestion.question}
             {currentQuestion.required && <span className="required">*</span>}
+            {currentQuestion.tooltip && <Tooltip text={currentQuestion.tooltip} />}
           </h2>
 
           {error && <div className="wizard-error">{error}</div>}

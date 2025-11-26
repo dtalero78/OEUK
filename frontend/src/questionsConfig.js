@@ -86,9 +86,10 @@ export const questionSteps = [
   {
     id: "time_in_office_months",
     section: "Current Job",
-    question: "Time in office (months)",
+    question: "Time in current position (months)",
     type: "number",
     field: "time_in_office_months",
+    tooltip: "How many months have you been working in your current job position?",
   },
   {
     id: "contract_type",
@@ -119,11 +120,12 @@ export const questionSteps = [
     type: "select",
     field: "shift_scheme",
     options: ["2:3", "3:3", "Other"],
+    tooltip: "Rotation schedule: weeks working vs weeks off. Example: 2:3 means 2 weeks on, 3 weeks off.",
   },
   {
     id: "work_involves",
     section: "Current Job",
-    question: "The work involves",
+    question: "Your work involves (select all that apply)",
     type: "checkbox-group",
     fields: [
       "work_involves_food",
@@ -131,7 +133,8 @@ export const questionSteps = [
       "work_involves_ert",
       "work_involves_inu",
     ],
-    labels: ["Food", "Op. Cranes", "ERT", "INU"],
+    labels: ["Food Handling", "Crane Operations", "Emergency Response Team (ERT)", "Ionizing/Non-Ionizing Radiation (INU)"],
+    tooltip: "Select activities that are part of your job duties offshore.",
   },
 
   // SECTION: PREVIOUS CERTIFICATIONS
@@ -187,6 +190,7 @@ export const questionSteps = [
     question: "Do you have a scheduled FOET/BOSIET exam?",
     type: "yesno",
     field: "has_next_foet",
+    tooltip: "FOET = Further Offshore Emergency Training. BOSIET = Basic Offshore Safety Induction and Emergency Training. These are mandatory safety courses for offshore workers.",
   },
   {
     id: "next_foet_date",
@@ -289,14 +293,16 @@ export const questionSteps = [
     type: "textarea",
     field: "missed_trips",
     placeholder: "Please describe if any",
+    tooltip: "Trips to offshore that you could not complete due to medical reasons or failed fitness tests.",
   },
   {
     id: "previous_oeuk",
     section: "Occupational History",
-    question: "Previous OEUK exams",
+    question: "Previous OEUK exam results (if applicable)",
     type: "checkbox-group",
     fields: ["previous_oeuk_deferred", "previous_oeuk_restricted"],
-    labels: ["Deferred", "Restricted"],
+    labels: ["Deferred (postponed for further review)", "Restricted (approved with limitations)"],
+    tooltip: "Deferred = your certification was postponed pending additional medical review. Restricted = you were certified but with certain job limitations.",
   },
 
   // SECTION: CURRENT MEDICAL HISTORY
@@ -602,16 +608,18 @@ export const questionSteps = [
   {
     id: "self_disability",
     section: "Medical History",
-    question: "Self-perception of disability?",
+    question: "Do you consider yourself to have a disability?",
     type: "yesno",
     field: "self_perception_disability",
+    tooltip: "Any physical or mental condition that you feel limits your daily activities or work capacity.",
   },
   {
     id: "classified_disabled",
     section: "Medical History",
-    question: "Classification as disabled?",
+    question: "Have you been officially classified as disabled?",
     type: "yesno",
     field: "classified_disabled",
+    tooltip: "Official disability status recognized by a government agency or medical board.",
   },
 
   // SECTION: PHOTO AND SIGNATURE
