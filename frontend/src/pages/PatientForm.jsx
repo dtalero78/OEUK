@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { questionSteps, initialFormData } from '../questionsConfig'
+import SignaturePad from '../components/SignaturePad'
+import PhotoCapture from '../components/PhotoCapture'
 
 const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3000/api'
 
@@ -200,7 +202,23 @@ function PatientForm() {
             ))}
           </div>
         )
-      
+
+      case 'signature':
+        return (
+          <SignaturePad
+            onSave={(data) => handleChange(field, data)}
+            initialValue={formData[field]}
+          />
+        )
+
+      case 'photo':
+        return (
+          <PhotoCapture
+            onSave={(data) => handleChange(field, data)}
+            initialValue={formData[field]}
+          />
+        )
+
       default:
         return null
     }

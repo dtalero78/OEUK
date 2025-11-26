@@ -613,6 +613,22 @@ export const questionSteps = [
     type: "yesno",
     field: "classified_disabled",
   },
+
+  // SECTION: PHOTO AND SIGNATURE
+  {
+    id: "photo",
+    section: "Verification",
+    question: "Please take or upload a photo of yourself",
+    type: "photo",
+    field: "photo_base64",
+  },
+  {
+    id: "signature",
+    section: "Verification",
+    question: "Please sign below to confirm the information provided is accurate",
+    type: "signature",
+    field: "signature_base64",
+  },
 ];
 
 export const initialFormData = {
@@ -709,4 +725,7 @@ export const initialFormData = {
   current_pregnancy: "",
   self_perception_disability: "",
   classified_disabled: "",
+  // Photo and Signature
+  photo_base64: "",
+  signature_base64: "",
 };

@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
 
 // Servir archivos estáticos del frontend en producción
 app.use(express.static(path.join(__dirname, 'public')));
@@ -49,7 +49,8 @@ app.post('/api/medical-records', async (req, res) => {
         back_pain, dermatitis, kidney_disease, blood_disorders, organ_transplantation,
         cancer, infectious_disease, hearing_loss, dizziness_vertigo, eardrum_perforation,
         visual_impairment, caries_dental, allergic_disorders, immunodeficiency,
-        current_pregnancy, self_perception_disability, classified_disabled
+        current_pregnancy, self_perception_disability, classified_disabled,
+        signature_base64, photo_base64
       ) VALUES (
         $1, $2, $3, $4, $5, $6, $7, $8, $9,
         $10, $11, $12, $13, $14,
@@ -71,7 +72,8 @@ app.post('/api/medical-records', async (req, res) => {
         $70, $71, $72, $73, $74,
         $75, $76, $77, $78, $79,
         $80, $81, $82, $83,
-        $84, $85, $86
+        $84, $85, $86,
+        $87, $88
       ) RETURNING id
     `, [
       str(data.surname), str(data.first_name), str(data.id_type), str(data.id_number), str(data.date_of_birth),
@@ -96,7 +98,8 @@ app.post('/api/medical-records', async (req, res) => {
       str(data.back_pain), str(data.dermatitis), str(data.kidney_disease), str(data.blood_disorders), str(data.organ_transplantation),
       str(data.cancer), str(data.infectious_disease), str(data.hearing_loss), str(data.dizziness_vertigo), str(data.eardrum_perforation),
       str(data.visual_impairment), str(data.caries_dental), str(data.allergic_disorders), str(data.immunodeficiency),
-      str(data.current_pregnancy), str(data.self_perception_disability), str(data.classified_disabled)
+      str(data.current_pregnancy), str(data.self_perception_disability), str(data.classified_disabled),
+      str(data.signature_base64), str(data.photo_base64)
     ]);
 
     res.status(201).json({
