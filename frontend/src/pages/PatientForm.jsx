@@ -109,7 +109,8 @@ function PatientForm() {
       })
       const data = await response.json()
       if (data.success) {
-        setSubmitted(true)
+        // Redirect to Medstar website after successful submission
+        window.location.href = 'https://www.medstar.com.co/en'
       } else {
         setError('Error submitting form. Please try again.')
       }
