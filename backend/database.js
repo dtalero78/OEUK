@@ -1,6 +1,9 @@
 import pg from 'pg';
 const { Pool } = pg;
 
+// Disable SSL certificate validation for Digital Ocean managed databases
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 // SSL configuration for Digital Ocean managed databases
 const sslConfig = {
   rejectUnauthorized: false
