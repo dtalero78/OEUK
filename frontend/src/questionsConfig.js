@@ -133,7 +133,7 @@ export const questionSteps = [
       "work_involves_ert",
       "work_involves_inu",
     ],
-    labels: ["Food Handling", "Crane Operations", "Emergency Response Team (ERT)", "Ionizing/Non-Ionizing Radiation (INU)"],
+    labels: ["Food Handling", "Crane Operations", "Emergency Response Team (ERT)", "Normally Unmanned Installations (NUI)"],
     tooltip: "Select activities that are part of your job duties offshore.",
   },
 
