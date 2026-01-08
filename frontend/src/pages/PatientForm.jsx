@@ -34,6 +34,11 @@ function PatientForm() {
     return <LanguageSelector onLanguageSelect={handleLanguageSelect} />
   }
 
+  // Wait for questions to load
+  if (!questionSteps || questionSteps.length === 0) {
+    return <div className="wizard-container"><div className="wizard-content">Loading...</div></div>
+  }
+
   const currentQuestion = questionSteps[currentStep]
 
   const getVisibleQuestionsCount = () => {
