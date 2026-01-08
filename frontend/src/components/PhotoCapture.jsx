@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
+import { getTranslation } from '../i18n/translations'
 
-function PhotoCapture({ onSave, initialValue }) {
+function PhotoCapture({ onSave, initialValue, language = 'en' }) {
+  const t = (key) => getTranslation(language, key)
   const fileInputRef = useRef(null)
   const videoRef = useRef(null)
   const [preview, setPreview] = useState(initialValue || '')
@@ -28,7 +30,7 @@ function PhotoCapture({ onSave, initialValue }) {
       setStream(mediaStream)
       setShowCamera(true)
     } catch (err) {
-      alert('Could not access camera. Please use file upload instead.')
+      alert(t('photoCapture.errorCamera'))
     }
   }
 
@@ -68,10 +70,10 @@ function PhotoCapture({ onSave, initialValue }) {
           <video ref={videoRef} autoPlay playsInline className="camera-video" />
           <div className="camera-actions">
             <button type="button" className="wizard-btn wizard-btn-primary" onClick={capturePhoto}>
-              Take Photo
+              {t('photoCapture.takePhoto')}
             </button>
             <button type="button" className="wizard-btn wizard-btn-secondary" onClick={stopCamera}>
-              Cancel
+              {t('photoCapture.cancel')}
             </button>
           </div>
         </div>
@@ -81,17 +83,17 @@ function PhotoCapture({ onSave, initialValue }) {
             <div className="photo-preview">
               <img src={preview} alt="Preview" />
               <button type="button" className="wizard-btn wizard-btn-secondary" onClick={clearPhoto}>
-                Remove
+                {t('photoCapture.remove')}
               </button>
             </div>
           ) : (
             <div className="photo-options">
               <button type="button" className="wizard-btn wizard-btn-primary" onClick={startCamera}>
-                Take Photo
+                {t('photoCapture.takePhoto')}
               </button>
-              <span className="photo-or">or</span>
+              <span className="photo-or">{t('photoCapture.or')}</span>
               <button type="button" className="wizard-btn wizard-btn-secondary" onClick={() => fileInputRef.current.click()}>
-                Upload File
+                {t('photoCapture.uploadFile')}
               </button>
               <input
                 ref={fileInputRef}

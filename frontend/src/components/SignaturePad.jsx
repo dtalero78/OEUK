@@ -1,6 +1,8 @@
 import { useRef, useEffect, useState } from 'react'
+import { getTranslation } from '../i18n/translations'
 
-function SignaturePad({ onSave, initialValue }) {
+function SignaturePad({ onSave, initialValue, language = 'en' }) {
+  const t = (key) => getTranslation(language, key)
   const canvasRef = useRef(null)
   const [isDrawing, setIsDrawing] = useState(false)
   const [hasSignature, setHasSignature] = useState(false)
@@ -106,10 +108,10 @@ function SignaturePad({ onSave, initialValue }) {
       />
       <div className="signature-actions">
         <button type="button" className="wizard-btn wizard-btn-secondary" onClick={clearSignature}>
-          Clear
+          {t('signaturePad.clear')}
         </button>
       </div>
-      {hasSignature && <p className="signature-hint">✓ Signature captured</p>}
+      {hasSignature && <p className="signature-hint">✓ {t('signaturePad.captured')}</p>}
     </div>
   )
 }

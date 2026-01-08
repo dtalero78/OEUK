@@ -1,16 +1,38 @@
-import { useState } from 'react'
-import { questionSteps, initialFormData } from '../questionsConfig'
+import { useState, useEffect } from 'react'
+import { getQuestionSteps, initialFormData } from '../questionsConfig'
+import { getTranslation } from '../i18n/translations'
 import SignaturePad from '../components/SignaturePad'
 import PhotoCapture from '../components/PhotoCapture'
 import Tooltip from '../components/Tooltip'
+import LanguageSelector from '../components/LanguageSelector'
 
 const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3000/api'
 
 function PatientForm() {
+  const [language, setLanguage] = useState(null)
   const [currentStep, setCurrentStep] = useState(0)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState(null)
   const [formData, setFormData] = useState(initialFormData)
+  const [questionSteps, setQuestionSteps] = useState([])
+
+  // Update question steps when language changes
+  useEffect(() => {
+    if (language) {
+      setQuestionSteps(getQuestionSteps(language))
+    }
+  }, [language])
+
+  const t = (key) => language ? getTranslation(language, key) : key
+
+  const handleLanguageSelect = (lang) => {
+    setLanguage(lang)
+  }
+
+  // Show language selector if no language selected
+  if (!language) {
+    return <LanguageSelector onLanguageSelect={handleLanguageSelect} />
+  }
 
   const currentQuestion = questionSteps[currentStep]
 
@@ -112,10 +134,10 @@ function PatientForm() {
         // Redirect to Medstar website after successful submission
         window.location.href = 'https://www.medstar.com.co/en'
       } else {
-        setError('Error submitting form. Please try again.')
+        setError(t('errorSubmitting'))
       }
     } catch (err) {
-      setError('Error connecting to server. Please try again.')
+      setError(t('errorConnecting'))
       console.error('Error:', err)
     }
   }
@@ -131,8 +153,8 @@ function PatientForm() {
     return (
       <div className="wizard-container">
         <div className="wizard-header">
-          <h1>Juan José Reátiga, MD</h1>
-          <p className="wizard-subtitle">OGUK/OEUK Certified Occupational Physician</p>
+          <h1>{t('doctorName')}</h1>
+          <p className="wizard-subtitle">{t('doctorTitle')}</p>
           <p className="wizard-contact">+57 316 525 9075</p>
         </div>
         <div className="wizard-content">
@@ -140,10 +162,10 @@ function PatientForm() {
             <div className="wizard-success-icon">
               <svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
             </div>
-            <h2>Thank you!</h2>
-            <p>Your medical questionnaire has been submitted successfully.</p>
-            <button className="wizard-btn wizard-btn-primary" onClick={() => { setSubmitted(false); setCurrentStep(0); setFormData(initialFormData) }}>
-              Submit Another Form
+            <h2>{t('thankYou')}</h2>
+            <p>{t('submissionSuccess')}</p>
+            <button className="wizard-btn wizard-btn-primary" onClick={() => { setSubmitted(false); setCurrentStep(0); setFormData(initialFormData); setLanguage(null) }}>
+              {t('submitAnother')}
             </button>
           </div>
         </div>
@@ -160,21 +182,21 @@ function PatientForm() {
 
       case 'number':
         return <input type="text" inputMode="numeric" pattern="[0-9]*" className="wizard-input" value={formData[field] || ''} onChange={(e) => handleNumberChange(field, e.target.value)} onKeyPress={handleKeyPress} placeholder={placeholder} autoFocus />
-      
+
       case 'date':
         return <input type="date" className="wizard-input" value={formData[field] || ''} onChange={(e) => handleChange(field, e.target.value)} autoFocus />
-      
+
       case 'textarea':
         return <textarea className="wizard-input wizard-textarea" value={formData[field] || ''} onChange={(e) => handleChange(field, e.target.value)} placeholder={placeholder} autoFocus />
-      
+
       case 'select':
         return (
           <select className="wizard-select" value={formData[field] || ''} onChange={(e) => handleChange(field, e.target.value, true)} autoFocus>
-            <option value="">Select an option</option>
+            <option value="">{t('selectOption')}</option>
             {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
           </select>
         )
-      
+
       case 'radio':
         return (
           <div className="wizard-radio-group">
@@ -186,11 +208,11 @@ function PatientForm() {
             ))}
           </div>
         )
-      
+
       case 'yesno':
         return (
           <div className="wizard-radio-group">
-            {['Yes', 'No'].map(opt => (
+            {[t('yes'), t('no')].map(opt => (
               <div key={opt} className={`wizard-radio-option ${formData[field] === opt ? 'selected' : ''}`} onClick={() => handleChange(field, opt, true)}>
                 <input type="radio" name={field} value={opt} checked={formData[field] === opt} onChange={(e) => handleChange(field, e.target.value, true)} />
                 <label>{opt}</label>
@@ -198,7 +220,7 @@ function PatientForm() {
             ))}
           </div>
         )
-      
+
       case 'checkbox-group':
         return (
           <div className="wizard-radio-group">
@@ -216,6 +238,7 @@ function PatientForm() {
           <SignaturePad
             onSave={(data) => handleChange(field, data)}
             initialValue={formData[field]}
+            language={language}
           />
         )
 
@@ -224,6 +247,7 @@ function PatientForm() {
           <PhotoCapture
             onSave={(data) => handleChange(field, data)}
             initialValue={formData[field]}
+            language={language}
           />
         )
 
@@ -235,8 +259,8 @@ function PatientForm() {
   return (
     <div className="wizard-container">
       <div className="wizard-header">
-        <h1>Juan José Reátiga, MD</h1>
-        <p className="wizard-subtitle">OGUK/OEUK Certified Occupational Physician</p>
+        <h1>{t('doctorName')}</h1>
+        <p className="wizard-subtitle">{t('doctorTitle')}</p>
         <p className="wizard-contact">+57 316 525 9075</p>
       </div>
 
@@ -253,7 +277,7 @@ function PatientForm() {
         <div className="wizard-question">
           <h2>
             {currentQuestion.question}
-            {currentQuestion.required && <span className="required">*</span>}
+            {currentQuestion.required && <span className="required">{t('required')}</span>}
             {currentQuestion.tooltip && <Tooltip text={currentQuestion.tooltip} />}
           </h2>
 
@@ -263,10 +287,10 @@ function PatientForm() {
 
           <div className="wizard-buttons">
             {getPreviousVisibleStep(currentStep) !== -1 && (
-              <button className="wizard-btn wizard-btn-secondary" onClick={handleBack}>Back</button>
+              <button className="wizard-btn wizard-btn-secondary" onClick={handleBack}>{t('back')}</button>
             )}
             <button className="wizard-btn wizard-btn-primary" onClick={handleNext} disabled={!canGoNext()}>
-              {getNextVisibleStep(currentStep) === -1 ? 'Submit' : 'Continue'}
+              {getNextVisibleStep(currentStep) === -1 ? t('submit') : t('continue')}
             </button>
           </div>
         </div>
