@@ -1,165 +1,118 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import RecordModal from '../components/RecordModal'
 
 const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3000/api'
 
 function DoctorPanel() {
-  const [authenticated, setAuthenticated] = useState(false)
-  const [password, setPassword] = useState('')
   const [records, setRecords] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const navigate = useNavigate()
+  const [selected, setSelected] = useState(null)
 
   useEffect(() => {
-    if (authenticated) {
-      fetchRecords()
-    }
-  }, [authenticated])
-
-  const handleLogin = async (e) => {
-    e.preventDefault()
-    setError(null)
-
-    try {
-      const response = await fetch(`${API_URL}/auth/doctor`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ password })
-      })
-
-      const data = await response.json()
-
-      if (data.authenticated) {
-        setAuthenticated(true)
-        setPassword('')
-      } else {
-        setError('Invalid password')
-      }
-    } catch (err) {
-      setError('Error connecting to server')
-      console.error('Error:', err)
-    }
-  }
+    fetchRecords()
+  }, [])
 
   const fetchRecords = async () => {
     setLoading(true)
+    setError(null)
     try {
-      const response = await fetch(`${API_URL}/medical-records`)
-      const data = await response.json()
-
+      const res = await fetch(`${API_URL}/medical-records`)
+      const data = await res.json()
       if (data.success) {
         setRecords(data.records)
+      } else {
+        setError('No se pudieron cargar los registros.')
       }
     } catch (err) {
-      setError('Error fetching records')
       console.error('Error:', err)
+      setError('Error de conexión con el servidor.')
     } finally {
       setLoading(false)
     }
   }
 
-  const formatDate = (dateString) => {
-    if (!dateString) return 'N/A'
-    return new Date(dateString).toLocaleDateString()
+  const openRecord = async (id) => {
+    // Trae el registro completo (la lista ya incluye todo, pero garantizamos datos frescos)
+    try {
+      const res = await fetch(`${API_URL}/medical-records/${id}`)
+      const data = await res.json()
+      if (data.success) setSelected(data.record)
+    } catch (err) {
+      console.error('Error abriendo registro:', err)
+    }
   }
 
-  if (!authenticated) {
-    return (
-      <div className="card login-form">
-        <h2>Doctor Panel Login</h2>
-        {error && (
-          <div className="alert alert-error">
-            {error}
-          </div>
-        )}
-        <form onSubmit={handleLogin}>
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-            Login
-          </button>
-        </form>
-        <p style={{ marginTop: '20px', fontSize: '12px', color: '#666', textAlign: 'center' }}>
-          Default password: oeuk2024
-        </p>
-      </div>
-    )
-  }
-
-  if (loading) {
-    return <div className="loading">Loading records...</div>
+  const formatDate = (value) => {
+    if (!value) return '—'
+    const d = new Date(value)
+    if (isNaN(d.getTime())) return value
+    return d.toLocaleDateString('es-CO')
   }
 
   return (
-    <div className="card">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h2>Medical Records</h2>
-        <button
-          className="btn btn-secondary"
-          onClick={() => setAuthenticated(false)}
-        >
-          Logout
+    <div className="doctor-page">
+      <header className="doctor-header">
+        <div>
+          <h1>Panel del médico</h1>
+          <p>Juan José Reátiga, MD · Registros de tamizaje OEUK</p>
+        </div>
+        <button className="doctor-refresh" onClick={fetchRecords} disabled={loading}>
+          ↻ Actualizar
         </button>
+      </header>
+
+      <div className="doctor-content">
+        {error && <div className="doctor-alert">{error}</div>}
+
+        {loading ? (
+          <div className="doctor-loading">Cargando registros...</div>
+        ) : records.length === 0 ? (
+          <div className="doctor-loading">No hay registros todavía.</div>
+        ) : (
+          <div className="doctor-table-wrap">
+            <table className="doctor-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Paciente</th>
+                  <th>Identificación</th>
+                  <th>Ciudad</th>
+                  <th>Empleador</th>
+                  <th>Fecha examen</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {records.map((r) => (
+                  <tr key={r.id} className="doctor-row" onClick={() => openRecord(r.id)}>
+                    <td>{r.id}</td>
+                    <td className="cell-name">{`${r.first_name || ''} ${r.surname || ''}`.trim() || '—'}</td>
+                    <td>{r.id_number || '—'}</td>
+                    <td>{r.city || '—'}</td>
+                    <td>{r.current_employer || '—'}</td>
+                    <td>{formatDate(r.exam_date)}</td>
+                    <td>
+                      <span className={`badge ${r.reviewed ? 'badge-reviewed' : 'badge-pending'}`}>
+                        {r.reviewed ? 'Revisado' : 'Pendiente'}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
-      {error && (
-        <div className="alert alert-error">
-          {error}
-        </div>
-      )}
-
-      {records.length === 0 ? (
-        <p>No medical records found.</p>
-      ) : (
-        <table className="records-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Date of Birth</th>
-              <th>Occupation</th>
-              <th>Submitted</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {records.map((record) => (
-              <tr key={record.id}>
-                <td>{record.id}</td>
-                <td>{record.forenames} {record.surname}</td>
-                <td>{formatDate(record.date_of_birth)}</td>
-                <td>{record.offshore_occupation || 'N/A'}</td>
-                <td>{formatDate(record.created_at)}</td>
-                <td>
-                  <span className={`badge ${record.reviewed ? 'badge-reviewed' : 'badge-pending'}`}>
-                    {record.reviewed ? 'Reviewed' : 'Pending'}
-                  </span>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-primary"
-                    style={{ padding: '6px 12px', fontSize: '14px' }}
-                    onClick={() => navigate(`/doctor/record/${record.id}`)}
-                  >
-                    View Details
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {selected && (
+        <RecordModal
+          record={selected}
+          onClose={() => {
+            setSelected(null)
+            fetchRecords()
+          }}
+        />
       )}
     </div>
   )

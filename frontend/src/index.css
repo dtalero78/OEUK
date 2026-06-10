@@ -520,3 +520,379 @@ body {
     width: 100%;
   }
 }
+
+/* ============================================================
+   DOCTOR PANEL  (/doctor)
+   Tipografía ampliada — pensado para lectura cómoda
+   ============================================================ */
+
+.doctor-page {
+  min-height: 100vh;
+  background-color: #FAFAFA;
+}
+
+.doctor-header {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E8E8E8;
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.doctor-header h1 {
+  font-size: 1.9rem;
+  color: #2D3748;
+}
+
+.doctor-header p {
+  margin-top: 0.35rem;
+  font-size: 1.05rem;
+  color: #4A90E2;
+  font-weight: 500;
+}
+
+.doctor-refresh {
+  background-color: #4A90E2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.3rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.doctor-refresh:hover { background-color: #3A7BC8; }
+.doctor-refresh:disabled { opacity: 0.6; cursor: default; }
+
+.doctor-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.doctor-alert {
+  background-color: #FDECEA;
+  color: #B3261E;
+  border: 1px solid #F5C6CB;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+}
+
+.doctor-loading {
+  text-align: center;
+  padding: 4rem 1rem;
+  font-size: 1.25rem;
+  color: #666;
+}
+
+.doctor-table-wrap {
+  background-color: #FFFFFF;
+  border: 1px solid #E8E8E8;
+  border-radius: 12px;
+  overflow-x: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.doctor-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.1rem;
+}
+
+.doctor-table thead th {
+  text-align: left;
+  padding: 1rem 1.25rem;
+  background-color: #F4F7FB;
+  color: #2D3748;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 2px solid #E8E8E8;
+  white-space: nowrap;
+}
+
+.doctor-table tbody td {
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid #EEE;
+  color: #2D2D2D;
+}
+
+.doctor-row {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.doctor-row:hover { background-color: #F4F7FB; }
+.doctor-row:active { background-color: #E9F1FB; }
+
+.cell-name { font-weight: 600; }
+
+.badge {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-reviewed { background-color: #E3F6EC; color: #1B7F4B; }
+.badge-pending { background-color: #FFF4E5; color: #B26A00; }
+
+/* ============================================================
+   MODAL DE REGISTRO
+   ============================================================ */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(20, 30, 45, 0.55);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.modal {
+  background-color: #FFFFFF;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 860px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  position: sticky;
+  top: 0;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E8E8E8;
+  border-radius: 14px 14px 0 0;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  z-index: 2;
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  color: #2D3748;
+}
+
+.modal-subtitle {
+  margin-top: 0.4rem;
+  font-size: 1.05rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: #888;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  border-radius: 8px;
+}
+.modal-close:hover { color: #2D3748; background-color: #F0F0F0; }
+
+.modal-body {
+  padding: 1.5rem 2rem 2rem;
+}
+
+.modal-media {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.modal-media-item { display: flex; flex-direction: column; gap: 0.5rem; }
+.modal-photo {
+  max-width: 180px;
+  max-height: 180px;
+  border-radius: 10px;
+  border: 1px solid #E8E8E8;
+  object-fit: cover;
+}
+.modal-signature {
+  max-width: 320px;
+  max-height: 140px;
+  border-radius: 10px;
+  border: 1px solid #E8E8E8;
+  background-color: #FFF;
+}
+
+.modal-section { margin-top: 1.75rem; }
+
+.modal-section-title {
+  font-size: 1.3rem;
+  color: #4A90E2;
+  border-bottom: 2px solid #EAF1FB;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.answer-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.answer-row {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 1.5rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid #F0F0F0;
+}
+.answer-row:last-child { border-bottom: none; }
+
+.answer-question {
+  font-size: 1.15rem;
+  color: #3A3A3A;
+}
+
+.answer-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1F2A37;
+  word-break: break-word;
+}
+
+.answer-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #666;
+}
+
+.modal-comments {
+  width: 100%;
+  min-height: 130px;
+  padding: 1rem;
+  font-size: 1.15rem;
+  font-family: inherit;
+  border: 1px solid #D7DEE8;
+  border-radius: 10px;
+  resize: vertical;
+  color: #2D2D2D;
+}
+.modal-comments:focus { outline: none; border-color: #4A90E2; }
+
+.modal-comments-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.save-ok { color: #1B7F4B; font-weight: 600; font-size: 1.05rem; }
+
+/* ============================================================
+   GRABADORA DE AUDIO
+   ============================================================ */
+
+.audio-recorder {
+  background-color: #F4F7FB;
+  border: 1px solid #DCE6F4;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.audio-recorder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.audio-recorder-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2D3748;
+}
+
+.audio-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2D3748;
+  font-variant-numeric: tabular-nums;
+}
+
+.rec-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #E53935;
+  animation: rec-blink 1s steps(2, start) infinite;
+}
+@keyframes rec-blink { 50% { opacity: 0.2; } }
+
+.audio-controls {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.audio-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.4rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  transition: filter 0.15s ease, background-color 0.15s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.audio-btn:hover { filter: brightness(0.95); }
+.audio-btn:disabled { opacity: 0.6; cursor: default; }
+
+.audio-btn-record { background-color: #E53935; }
+.audio-btn-pause { background-color: #F2A33C; }
+.audio-btn-stop { background-color: #5A6675; }
+.audio-btn-download { background-color: #4A90E2; }
+
+.audio-error {
+  background-color: #FDECEA;
+  color: #B3261E;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+}
+
+.audio-playback {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.audio-playback .audio-btn-download { align-self: flex-start; }
+
+@media (max-width: 640px) {
+  .answer-row { grid-template-columns: 1fr; gap: 0.25rem; }
+  .modal-body { padding: 1.25rem; }
+  .modal-header { padding: 1.25rem; }
+}
