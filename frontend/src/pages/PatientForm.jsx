@@ -5,6 +5,7 @@ import SignaturePad from '../components/SignaturePad'
 import PhotoCapture from '../components/PhotoCapture'
 import Tooltip from '../components/Tooltip'
 import LanguageSelector from '../components/LanguageSelector'
+import logo from '../assets/logoOEUK.png'
 
 const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3000/api'
 
@@ -158,7 +159,7 @@ function PatientForm() {
     return (
       <div className="wizard-container">
         <div className="wizard-header">
-          <h1>{t('doctorName')}</h1>
+          <img src={logo} alt="OEUK" className="wizard-logo" />
           <p className="wizard-subtitle">{t('doctorTitle')}</p>
           <p className="wizard-contact">+57 316 525 9075</p>
         </div>
@@ -264,7 +265,7 @@ function PatientForm() {
   return (
     <div className="wizard-container">
       <div className="wizard-header">
-        <h1>{t('doctorName')}</h1>
+        <img src={logo} alt="OEUK" className="wizard-logo" />
         <p className="wizard-subtitle">{t('doctorTitle')}</p>
         <p className="wizard-contact">+57 316 525 9075</p>
       </div>

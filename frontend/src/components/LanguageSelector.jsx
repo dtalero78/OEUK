@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { getTranslation } from '../i18n/translations'
+import logo from '../assets/logoOEUK.png'
 
 function LanguageSelector({ onLanguageSelect }) {
   const [selectedLanguage, setSelectedLanguage] = useState(null)
@@ -17,7 +18,7 @@ function LanguageSelector({ onLanguageSelect }) {
   return (
     <div className="wizard-container">
       <div className="wizard-header">
-        <h1>Juan José Reátiga, MD</h1>
+        <img src={logo} alt="OEUK" className="wizard-logo" />
         <p className="wizard-subtitle">OGUK/OEUK Certified Occupational Physician</p>
         <p className="wizard-subtitle">Médico Ocupacional Certificado OGUK/OEUK</p>
         <p className="wizard-contact">+57 316 525 9075</p>
