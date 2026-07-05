@@ -32,7 +32,9 @@ export const translations = {
     // Section names
     background: "Background",
     currentJob: "Current Job",
+    employmentHistory: "Employment History",
     certifications: "Certifications",
+    familyComposition: "Family Composition",
     healthHabits: "Health Habits",
     occupationalHistory: "Occupational History",
     currentMedical: "Current Medical",
@@ -59,6 +61,10 @@ export const translations = {
       date_of_travel: "Date of travel?",
       shift_scheme: "Shift Scheme",
       work_involves: "Your work involves (select all that apply)",
+      profession: "Profession",
+
+      employment_history: "Employment history (employer, role, time, offshore?)",
+      countries_worked: "Countries where you have worked",
 
       recent_oeuk_exam: "Have you had a previous OEUK medical exam?",
       recent_oeuk_exam_date: "Date of the most recent OEUK medical exam",
@@ -69,6 +75,17 @@ export const translations = {
       next_foet: "Do you have a scheduled FOET/BOSIET exam?",
       next_foet_date: "Date of the next FOET/BOSIET exam",
 
+      father_alive: "Is your father alive?",
+      father_current_diseases: "Father — current diseases",
+      father_cause_of_death: "Father — cause of death",
+      father_age_at_death: "Father — age at death",
+      mother_alive: "Is your mother alive?",
+      mother_current_diseases: "Mother — current diseases",
+      mother_cause_of_death: "Mother — cause of death",
+      mother_age_at_death: "Mother — age at death",
+      mate_info: "Partner (age, current diseases)",
+      children_info: "Children (age, current diseases)",
+
       smoking: "Do you currently smoke or vape?",
       smoking_quantity: "If you smoke/vape, how many per day?",
       smoking_years: "How many years have you smoked?",
@@ -77,6 +94,7 @@ export const translations = {
       physical_frequency: "How many times per week?",
       physical_duration: "Duration per session",
 
+      occupation: "Occupation",
       occupational_diseases: "Have you had any occupational diseases?",
       workplace_accidents: "Have you had any workplace accidents?",
       medical_evacuations: "Have you had any medical evacuations?",
@@ -168,6 +186,9 @@ export const translations = {
       current_diagnoses: "List any current medical diagnoses",
       undiagnosed_symptoms: "Describe any symptoms you are experiencing",
       current_medication: "List all current medications",
+      employment_history: "For each previous job: employer, role, time, and whether offshore",
+      countries_worked: "List the countries",
+      children_info: "e.g. son 8y healthy, daughter 5y asthma",
     },
 
     // Component-specific translations
@@ -216,7 +237,9 @@ export const translations = {
     // Section names
     background: "Información Personal",
     currentJob: "Trabajo Actual",
+    employmentHistory: "Historia Laboral",
     certifications: "Certificaciones",
+    familyComposition: "Composición Familiar",
     healthHabits: "Hábitos de Salud",
     occupationalHistory: "Historia Ocupacional",
     currentMedical: "Situación Médica Actual",
@@ -243,6 +266,10 @@ export const translations = {
       date_of_travel: "¿Fecha de viaje?",
       shift_scheme: "Esquema de Turnos",
       work_involves: "Su trabajo involucra (seleccione todas las que apliquen)",
+      profession: "Profesión",
+
+      employment_history: "Historia laboral (empleador, cargo, tiempo, ¿offshore?)",
+      countries_worked: "Países donde ha trabajado",
 
       recent_oeuk_exam: "¿Ha tenido un examen médico OEUK previo?",
       recent_oeuk_exam_date: "Fecha del examen médico OEUK más reciente",
@@ -253,6 +280,17 @@ export const translations = {
       next_foet: "¿Tiene programado un examen FOET/BOSIET?",
       next_foet_date: "Fecha del próximo examen FOET/BOSIET",
 
+      father_alive: "¿Su padre está vivo?",
+      father_current_diseases: "Padre — enfermedades actuales",
+      father_cause_of_death: "Padre — causa de fallecimiento",
+      father_age_at_death: "Padre — edad al fallecer",
+      mother_alive: "¿Su madre está viva?",
+      mother_current_diseases: "Madre — enfermedades actuales",
+      mother_cause_of_death: "Madre — causa de fallecimiento",
+      mother_age_at_death: "Madre — edad al fallecer",
+      mate_info: "Pareja (edad, enfermedades actuales)",
+      children_info: "Hijos (edad, enfermedades actuales)",
+
       smoking: "¿Actualmente fuma o vapea?",
       smoking_quantity: "Si fuma/vapea, ¿cuántos por día?",
       smoking_years: "¿Cuántos años ha fumado?",
@@ -261,6 +299,7 @@ export const translations = {
       physical_frequency: "¿Cuántas veces por semana?",
       physical_duration: "Duración por sesión",
 
+      occupation: "Ocupación",
       occupational_diseases: "¿Ha tenido enfermedades ocupacionales?",
       workplace_accidents: "¿Ha tenido accidentes laborales?",
       medical_evacuations: "¿Ha tenido evacuaciones médicas?",
@@ -352,6 +391,9 @@ export const translations = {
       current_diagnoses: "Liste cualquier diagnóstico médico actual",
       undiagnosed_symptoms: "Describa cualquier síntoma que esté experimentando",
       current_medication: "Liste todos los medicamentos actuales",
+      employment_history: "Por cada empleo previo: empleador, cargo, tiempo y si fue offshore",
+      countries_worked: "Liste los países",
+      children_info: "ej. hijo 8a sano, hija 5a asma",
     },
 
     // Component-specific translations

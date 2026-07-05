@@ -141,6 +141,31 @@ export const getQuestionSteps = (language = 'en') => {
     labels: t('options.workInvolves'),
     tooltip: t('tooltips.work_involves'),
   },
+  {
+    id: "profession",
+    section: t('currentJob'),
+    question: t('questions.profession'),
+    type: "text",
+    field: "profession",
+  },
+
+  // SECTION: EMPLOYMENT HISTORY
+  {
+    id: "employment_history",
+    section: t('employmentHistory'),
+    question: t('questions.employment_history'),
+    type: "textarea",
+    field: "employment_history",
+    placeholder: t('placeholders.employment_history'),
+  },
+  {
+    id: "countries_worked",
+    section: t('employmentHistory'),
+    question: t('questions.countries_worked'),
+    type: "textarea",
+    field: "countries_worked",
+    placeholder: t('placeholders.countries_worked'),
+  },
 
   // SECTION: PREVIOUS CERTIFICATIONS
   {
@@ -204,6 +229,85 @@ export const getQuestionSteps = (language = 'en') => {
     type: "date",
     field: "next_foet_bosiet_date",
     showIf: (formData) => formData.has_next_foet === "Yes" || formData.has_next_foet === "Sí",
+  },
+
+  // SECTION: FAMILY COMPOSITION
+  {
+    id: "father_alive",
+    section: t('familyComposition'),
+    question: t('questions.father_alive'),
+    type: "yesno",
+    field: "father_alive",
+  },
+  {
+    id: "father_current_diseases",
+    section: t('familyComposition'),
+    question: t('questions.father_current_diseases'),
+    type: "text",
+    field: "father_current_diseases",
+    showIf: (formData) => formData.father_alive === "Yes" || formData.father_alive === "Sí",
+  },
+  {
+    id: "father_cause_of_death",
+    section: t('familyComposition'),
+    question: t('questions.father_cause_of_death'),
+    type: "text",
+    field: "father_cause_of_death",
+    showIf: (formData) => formData.father_alive === "No",
+  },
+  {
+    id: "father_age_at_death",
+    section: t('familyComposition'),
+    question: t('questions.father_age_at_death'),
+    type: "number",
+    field: "father_age_at_death",
+    showIf: (formData) => formData.father_alive === "No",
+  },
+  {
+    id: "mother_alive",
+    section: t('familyComposition'),
+    question: t('questions.mother_alive'),
+    type: "yesno",
+    field: "mother_alive",
+  },
+  {
+    id: "mother_current_diseases",
+    section: t('familyComposition'),
+    question: t('questions.mother_current_diseases'),
+    type: "text",
+    field: "mother_current_diseases",
+    showIf: (formData) => formData.mother_alive === "Yes" || formData.mother_alive === "Sí",
+  },
+  {
+    id: "mother_cause_of_death",
+    section: t('familyComposition'),
+    question: t('questions.mother_cause_of_death'),
+    type: "text",
+    field: "mother_cause_of_death",
+    showIf: (formData) => formData.mother_alive === "No",
+  },
+  {
+    id: "mother_age_at_death",
+    section: t('familyComposition'),
+    question: t('questions.mother_age_at_death'),
+    type: "number",
+    field: "mother_age_at_death",
+    showIf: (formData) => formData.mother_alive === "No",
+  },
+  {
+    id: "mate_info",
+    section: t('familyComposition'),
+    question: t('questions.mate_info'),
+    type: "text",
+    field: "mate_info",
+  },
+  {
+    id: "children_info",
+    section: t('familyComposition'),
+    question: t('questions.children_info'),
+    type: "textarea",
+    field: "children_info",
+    placeholder: t('placeholders.children_info'),
   },
 
   // SECTION: HEALTH HABITS
@@ -281,6 +385,13 @@ export const getQuestionSteps = (language = 'en') => {
   },
 
   // SECTION: OCCUPATIONAL MEDICAL HISTORY
+  {
+    id: "occupation",
+    section: t('occupationalHistory'),
+    question: t('questions.occupation'),
+    type: "text",
+    field: "occupation",
+  },
   {
     id: "occupational_diseases",
     section: t('occupationalHistory'),
@@ -682,7 +793,10 @@ export const initialFormData = {
   work_involves_cranes: false,
   work_involves_ert: false,
   work_involves_inu: false,
+  profession: "",
+  // Employment History
   employment_history: "",
+  countries_worked: "",
   // Previous Certifications
   has_recent_oeuk_exam: "",
   recent_oeuk_exam_date: "",
@@ -692,6 +806,17 @@ export const initialFormData = {
   recent_training_provider: "",
   has_next_foet: "",
   next_foet_bosiet_date: "",
+  // Family Composition
+  father_alive: "",
+  father_current_diseases: "",
+  father_cause_of_death: "",
+  father_age_at_death: "",
+  mother_alive: "",
+  mother_current_diseases: "",
+  mother_cause_of_death: "",
+  mother_age_at_death: "",
+  mate_info: "",
+  children_info: "",
   // Health Habits
   smoking_status: "",
   smoking_quantity_day: "",
@@ -701,6 +826,7 @@ export const initialFormData = {
   physical_activity_frequency: "",
   physical_activity_duration: "",
   // Occupational Medical History
+  occupation: "",
   occupational_diseases: "",
   workplace_accidents: "",
   medical_evacuations: "",

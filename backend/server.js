@@ -54,7 +54,11 @@ app.post('/api/medical-records', async (req, res) => {
         cancer, infectious_disease, hearing_loss, dizziness_vertigo, eardrum_perforation,
         visual_impairment, caries_dental, allergic_disorders, immunodeficiency,
         current_pregnancy, self_perception_disability, classified_disabled,
-        signature_base64, photo_base64
+        signature_base64, photo_base64,
+        profession, countries_worked, occupation,
+        father_alive, father_current_diseases, father_cause_of_death, father_age_at_death,
+        mother_alive, mother_current_diseases, mother_cause_of_death, mother_age_at_death,
+        mate_info, children_info
       ) VALUES (
         $1, $2, $3, $4, $5, $6, $7, $8, $9,
         $10, $11, $12, $13, $14,
@@ -77,7 +81,11 @@ app.post('/api/medical-records', async (req, res) => {
         $75, $76, $77, $78, $79,
         $80, $81, $82, $83,
         $84, $85, $86,
-        $87, $88
+        $87, $88,
+        $89, $90, $91,
+        $92, $93, $94, $95,
+        $96, $97, $98, $99,
+        $100, $101
       ) RETURNING id
     `, [
       str(data.surname), str(data.first_name), str(data.id_type), str(data.id_number), str(data.date_of_birth),
@@ -103,7 +111,11 @@ app.post('/api/medical-records', async (req, res) => {
       str(data.cancer), str(data.infectious_disease), str(data.hearing_loss), str(data.dizziness_vertigo), str(data.eardrum_perforation),
       str(data.visual_impairment), str(data.caries_dental), str(data.allergic_disorders), str(data.immunodeficiency),
       str(data.current_pregnancy), str(data.self_perception_disability), str(data.classified_disabled),
-      str(data.signature_base64), str(data.photo_base64)
+      str(data.signature_base64), str(data.photo_base64),
+      str(data.profession), str(data.countries_worked), str(data.occupation),
+      str(data.father_alive), str(data.father_current_diseases), str(data.father_cause_of_death), num(data.father_age_at_death),
+      str(data.mother_alive), str(data.mother_current_diseases), str(data.mother_cause_of_death), num(data.mother_age_at_death),
+      str(data.mate_info), str(data.children_info)
     ]);
 
     res.status(201).json({
